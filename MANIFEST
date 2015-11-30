@@ -1,6 +1,6 @@
 Changes
-MANIFEST			This list of files
-META.yml			Module meta-data (added by MakeMaker)
+MANIFEST
+META.yml
 Makefile.PL
 README
 stompclt

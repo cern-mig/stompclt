@@ -1,4 +1,5 @@
 stompclt
+========
 
 stompclt is a versatile tool to interact with messaging brokers speaking
 STOMP[1] and/or message queues (see Messaging::Message::Queue[2]) on disk.
@@ -13,6 +14,7 @@ can perform different operations.
 [3] http://search.cpan.org/perldoc?Messaging::Message
 
 INSTALLATION
+------------
 
 To install this script, run the following commands:
 
@@ -21,6 +23,7 @@ To install this script, run the following commands:
     make install
 
 SUPPORT AND DOCUMENTATION
+-------------------------
 
 After installing, you can find documentation for this script with the
 man command:
@@ -28,6 +31,7 @@ man command:
     man stompclt
 
 LICENSE AND COPYRIGHT
+---------------------
 
 Copyright (C) CERN 2012-2015
 
