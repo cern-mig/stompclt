@@ -1,0 +1,6 @@
+Changes
+MANIFEST			This list of files
+META.yml			Module meta-data (added by MakeMaker)
+Makefile.PL
+README
+stompclt

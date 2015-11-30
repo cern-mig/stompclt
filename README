@@ -1,0 +1,38 @@
+stompclt
+
+stompclt is a versatile tool to interact with messaging brokers speaking
+STOMP[1] and/or message queues (see Messaging::Message::Queue[2]) on disk.
+
+It receives messages (see Messaging::Message[3]) from an incoming module,
+optionally massaging them (i.e. filtering and/or modifying), and sends
+them to an outgoing module. Depending on which modules are used, the tool
+can perform different operations.
+
+[1] http://stomp.github.com/
+[2] http://search.cpan.org/perldoc?Messaging::Message::Queue
+[3] http://search.cpan.org/perldoc?Messaging::Message
+
+INSTALLATION
+
+To install this script, run the following commands:
+
+    perl Makefile.PL
+    make
+    make install
+
+SUPPORT AND DOCUMENTATION
+
+After installing, you can find documentation for this script with the
+man command:
+
+    man stompclt
+
+LICENSE AND COPYRIGHT
+
+Copyright (C) CERN 2012-2015
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of either: the GNU General Public License as published
+by the Free Software Foundation; or the Artistic License.
+
+See http://dev.perl.org/licenses/ for more information.
