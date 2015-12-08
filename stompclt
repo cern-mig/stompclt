@@ -1079,6 +1079,12 @@ package incoming::queue;
             $LockFailed++;
             return("failed to lock");
         }
+        if ($Config{incoming}{queue}{type} eq "DQS"
+            and not -s $Queue->get_path($elt)) {
+            ::warnf("removed empty file %s/%s", $Path, $elt);
+            $Queue->remove($elt);
+            return("removed empty file");
+        }
         ::log_debug3("incoming message get %s/%s", $Path, $elt);
         $msg = $Queue->get_message($elt);
         if ($Config{reliable}) {

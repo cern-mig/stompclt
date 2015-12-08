@@ -1,5 +1,8 @@
 Revision history for stompclt:
 
+???	???
+	* Delete empty files found in DQS incoming queues.
+
 1.3	Wed Apr  8 2015
 	* Allow multiple inclusions of the same configuration file.
 	* Added a --timeout-disconnect option.
