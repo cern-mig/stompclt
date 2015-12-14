@@ -40,7 +40,7 @@ use Time::HiRes qw();
 # constants
 #
 
-use constant VERSION           => "1.3";
+use constant VERSION           => "1.4";
 use constant PURGE_INTERVAL    => 300;
 use constant PREFETCH_MAX      => 100;
 use constant PIDFILE_FRESHNESS =>  60;
