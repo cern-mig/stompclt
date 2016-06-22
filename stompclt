@@ -305,7 +305,9 @@ sub stomp::type ($) {
 
     $server = $broker->server() || "";
     $session = $broker->session() || "";
-    if ($server =~ /^ActiveMQ\//) {
+    if ($server =~ /^ActiveMQ-Artemis\//) {
+        $type = "Artemis";
+    } elsif ($server =~ /^ActiveMQ\//) {
         $type = "ActiveMQ";
     } elsif ($server =~ /^apache-apollo\// or $session =~ /^apollo-/) {
         $type = "Apollo";
