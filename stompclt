@@ -78,7 +78,7 @@ sub callback::stop();
 #                                                                              #
 #---############################################################################
 
-$Schema{config} = {
+$Schema{_} = {
     type   => "struct",
     fields => {
         callback    => { type => "valid(callback)",     optional => "true" },
@@ -381,6 +381,8 @@ sub option::list (@) {
 
     print("Here are the supported command line options:\n");
     foreach my $option (sort(@options)) {
+        # hide the special CONFIGURATION option
+        $option =~ s/^CONFIGURATION\|//;
         printf("  --%s\n", $option);
     }
     exit(0);
@@ -434,7 +436,7 @@ sub option::clean ($$$$@) {
 
 sub option::config (@) {
     my(@options) = @_;
-    my(@list, %tmp);
+    my(@list, %tmp, %opt);
 
     # first pass
     @list = @ARGV;
@@ -447,10 +449,10 @@ sub option::config (@) {
         printf("%s %s\n", $ProgramName, VERSION);
         exit(0);
     }
-    if (defined($tmp{config})) {
+    if (defined($tmp{CONFIGURATION})) {
         %Config = ParseConfig(
             -CComments       => 0,
-            -ConfigFile      => $tmp{config},
+            -ConfigFile      => $tmp{CONFIGURATION},
             -IncludeRelative => 1,
             -IncludeAgain    => 1,
         );
@@ -461,7 +463,7 @@ sub option::config (@) {
         # second pass
         @ARGV = @list;
         GetOptions(\%Config, @options) or pod2usage(2);
-        delete($Config{config});
+        delete($Config{CONFIGURATION});
     } else {
         # first pass is enough
         %Config = %tmp;
@@ -509,8 +511,8 @@ sub option::parse () {
     Getopt::Long::Configure(qw(posix_default no_ignore_case));
     $validator = Config::Validator->new(%Schema);
     @options = (
-        $validator->options("config"),
-        "config|conf=s",
+        $validator->options("_"),
+        "CONFIGURATION|config|conf|cfg=s",
         "help|h|?",
         "list|l",
         "manual|m",
@@ -542,10 +544,10 @@ sub option::parse () {
     # handle --quit and --status which are special
     option::pid();
     # cleanup and validation
-    $validator->traverse(\&option::clean, \%Config, "config");
+    $validator->traverse(\&option::clean, \%Config, "_");
     printf(STDERR "# %s configuration: %s", $ProgramName, Dumper(\%Config))
         if $Config{debug} > 3;
-    $validator->validate(\%Config, "config");
+    $validator->validate(\%Config, "_");
     # make sure boolean options can be tested directly
     foreach my $option (qw(daemon lazy loop reliable remove statistics)) {
         delete($Config{$option}) unless is_true($Config{$option});
@@ -1371,7 +1373,7 @@ section below for more information
 execute the Perl code in the given file on each message, see the
 L</"CALLBACK"> section below for more information
 
-=item B<--config>, B<--conf> I<PATH>
+=item B<--config>, B<--conf>, B<--cfg> I<PATH>
 
 use the given configuration file, see the L</"CONFIGURATION FILE"> section
 below for more information
@@ -1888,4 +1890,4 @@ L<Net::STOMP::Client>.
 
 Lionel Cons L<http://cern.ch/lionel.cons>
 
-Copyright (C) CERN 2012-2015
+Copyright (C) CERN 2012-2016
