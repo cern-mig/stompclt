@@ -1107,7 +1107,7 @@ package incoming::queue;
         my($elt, $path);
         $elt = delete($Pending{$id});
         $path = "$Path/$elt";
-        if (-e $path) {
+        if ($Config{incoming}{queue}{type} !~ /^DQ/ or -e $path) {
             if ($Config{remove}) {
                 ::log_debug3("incoming message remove %s", $path);
                 $Queue->remove($elt);
