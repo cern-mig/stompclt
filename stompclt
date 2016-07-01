@@ -381,8 +381,8 @@ sub option::list (@) {
 
     print("Here are the supported command line options:\n");
     foreach my $option (sort(@options)) {
-        # hide the special CONFIGURATION option
-        $option =~ s/^CONFIGURATION\|//;
+        # hide the special CONFIG* options
+        $option =~ s/^CONFIG\w+\|//;
         printf("  --%s\n", $option);
     }
     exit(0);
@@ -449,13 +449,15 @@ sub option::config (@) {
         printf("%s %s\n", $ProgramName, VERSION);
         exit(0);
     }
-    if (defined($tmp{CONFIGURATION})) {
-        %Config = ParseConfig(
-            -CComments       => 0,
-            -ConfigFile      => $tmp{CONFIGURATION},
-            -IncludeRelative => 1,
-            -IncludeAgain    => 1,
-        );
+    if (defined($tmp{CONFIGPATH})) {
+        if ($tmp{CONFIGOPTS}) {
+            %opt = string2hash($tmp{CONFIGOPTS});
+        }
+        $opt{-CComments} = 0;
+        $opt{-ConfigFile} = $tmp{CONFIGPATH};
+        $opt{-IncludeAgain} = 1;
+        $opt{-IncludeRelative} = 1;
+        %Config = ParseConfig(%opt);
         %Config = %{ $Config{stompclt} }
             if $Config{stompclt} and ref($Config{stompclt}) eq "HASH";
         treeify(\%Config);
@@ -463,7 +465,8 @@ sub option::config (@) {
         # second pass
         @ARGV = @list;
         GetOptions(\%Config, @options) or pod2usage(2);
-        delete($Config{CONFIGURATION});
+        delete($Config{CONFIGPATH});
+        delete($Config{CONFIGOPTS});
     } else {
         # first pass is enough
         %Config = %tmp;
@@ -512,7 +515,8 @@ sub option::parse () {
     $validator = Config::Validator->new(%Schema);
     @options = (
         $validator->options("_"),
-        "CONFIGURATION|config|conf|cfg=s",
+        "CONFIGPATH|config|conf|cfg=s",
+        "CONFIGOPTS|config-general=s",
         "help|h|?",
         "list|l",
         "manual|m",
@@ -1377,6 +1381,10 @@ L</"CALLBACK"> section below for more information
 
 use the given configuration file, see the L</"CONFIGURATION FILE"> section
 below for more information
+
+=item B<--config-general> I<KEY=VALUE...>
+
+use the given L<Config::General> options when creating the configuration parser
 
 =item B<--count>, B<-c> I<INTEGER>
 

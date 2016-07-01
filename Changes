@@ -1,5 +1,9 @@
 Revision history for stompclt:
 
+???	???
+	* Added a --config-general option.
+	* Added --cfg as a synonym for the --config option.
+
 1.4	Mon Dec 14 2015
 	* Delete empty files found in DQS incoming queues.
 
