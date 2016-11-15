@@ -7,7 +7,7 @@ my(%param, $emv);
 %param = (
     NAME          => 'stompclt',
     AUTHOR        => 'Lionel Cons <lionel.cons@cern.ch>',
-    VERSION       => '1.4',
+    VERSION       => '1.5',
     ABSTRACT_FROM => 'stompclt',
     LICENSE       => 'perl',
     EXE_FILES     => [ 'stompclt' ],

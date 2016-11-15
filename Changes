@@ -1,6 +1,6 @@
 Revision history for stompclt:
 
-???	???
+1.5	Tue Nov 15 2016
 	* Added a --config-general option.
 	* Added --cfg as a synonym for the --config option.
 
