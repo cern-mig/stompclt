@@ -40,7 +40,7 @@ use Time::HiRes qw();
 # constants
 #
 
-use constant VERSION           => "1.5";
+use constant VERSION           => "1.6";
 use constant PURGE_INTERVAL    => 300;
 use constant PREFETCH_MAX      => 100;
 use constant PIDFILE_FRESHNESS =>  60;
@@ -504,6 +504,28 @@ sub option::pid () {
 }
 
 #
+# flatten the given configuration sub-tree
+#
+
+sub option::flatten ($);
+sub option::flatten ($) {
+    my($hash) = @_;
+    my(%flat);
+
+    foreach my $key (keys(%{ $hash })) {
+        next unless ref($hash->{$key}) eq "HASH";
+        option::flatten($hash->{$key});
+        foreach my $subkey (keys(%{ $hash->{$key} })) {
+            $flat{"$key-$subkey"} = $hash->{$key}{$subkey};
+        }
+        delete($hash->{$key});
+    }
+    foreach my $key (keys(%flat)) {
+        $hash->{$key} = $flat{$key};
+    }
+}
+
+#
 # parse the command line options
 #
 
@@ -531,9 +553,12 @@ sub option::parse () {
         $option =~ s/^(count)(.+)$/$1|c$2/;
         $option =~ s/^(statistics)(.+)$/$1|s$2/;
     }
-    # handle --config and treeify
+    # handle --config and treeify (carefully)
     option::config(@options);
     treeify(\%Config);
+    foreach my $name (qw(subscribe unsubscribe)) {
+        option::flatten($Config{$name}) if $Config{$name};
+    }
     # default debug and timeouts
     $Config{debug} = 0
         unless defined($Config{debug});
@@ -1898,4 +1923,4 @@ L<Net::STOMP::Client>.
 
 Lionel Cons L<http://cern.ch/lionel.cons>
 
-Copyright (C) CERN 2012-2016
+Copyright (C) CERN 2012-2019
