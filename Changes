@@ -1,5 +1,8 @@
 Revision history for stompclt:
 
+1.7	<not yet released>
+	* Added --prefetch support for Artemis.
+
 1.6	Thu Feb 14 2019
 	* Allow subscribe and unsubscribe options containing a dash.
 

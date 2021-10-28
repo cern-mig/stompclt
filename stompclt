@@ -47,7 +47,7 @@ use constant PIDFILE_FRESHNESS =>  60;
 use constant UDP_SEND_BUFFER   => 256 * 1024 * 1024;
 
 #
-# global variables
+# variables
 #
 
 our(%Config, %NeedsCleanup, %Schema);
@@ -132,7 +132,7 @@ $Schema{broker_stomp} = {
 
 $Schema{broker_type} = {
     type   => "string",
-    match  => qr/^(ActiveMQ|Apollo|RabbitMQ|UNKNOWN)$/,
+    match  => qr/^(ActiveMQ|Apollo|Artemis|RabbitMQ|UNKNOWN)$/,
 };
 
 $Schema{callback} = {
@@ -330,6 +330,7 @@ sub stomp::prefetch ($) {
     return() unless $Config{prefetch};
     return("activemq.prefetchSize" => $Config{prefetch}) if $type eq "ActiveMQ";
     return("credit" => $Config{prefetch}) if $type eq "Apollo";
+    return("consumer-window-size" => $Config{prefetch}) if $type eq "Artemis";
     return("prefetch-count" => $Config{prefetch}) if $type eq "RabbitMQ";
     dief("unsupported broker type for prefetch: %s", $type);
 }
@@ -1923,4 +1924,4 @@ L<Net::STOMP::Client>.
 
 Lionel Cons L<http://cern.ch/lionel.cons>
 
-Copyright (C) CERN 2012-2019
+Copyright (C) CERN 2012-2021
