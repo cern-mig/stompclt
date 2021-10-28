@@ -1,6 +1,6 @@
 Revision history for stompclt:
 
-1.7	<not yet released>
+1.7	Thu Oct 28 2021
 	* Added --prefetch support for Artemis.
 
 1.6	Thu Feb 14 2019
