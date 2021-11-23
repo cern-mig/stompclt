@@ -1,5 +1,8 @@
 Revision history for stompclt:
 
+1.8	Tue Nov 23 2021
+	* Fixed multiple subscriptions handling.
+
 1.7	Thu Oct 28 2021
 	* Added --prefetch support for Artemis.
 
