@@ -1,6 +1,8 @@
 stompclt
 ========
 
+WARNING: This software is not maintained anymore.
+
 stompclt is a versatile tool to interact with messaging brokers speaking
 STOMP[1] and/or message queues (see Messaging::Message::Queue[2]) on disk.
 
